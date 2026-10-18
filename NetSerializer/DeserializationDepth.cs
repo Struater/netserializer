@@ -4,7 +4,7 @@ using System.IO;
 namespace NetSerializer
 {
 	// Dumont changes start
-	public sealed class DeserializationDepthException : InvalidDataException
+	public sealed class DeserializationDepthException : IOException
 	{
 		public DeserializationDepthException(int max)
 			: base($"Object graph is deeper than {max} levels")
