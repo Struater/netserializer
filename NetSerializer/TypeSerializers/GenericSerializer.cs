@@ -137,6 +137,10 @@ namespace NetSerializer
 		{
 			// arg0: Serializer, arg1: stream, arg2: out value
 
+			// Dumont changes start
+			il.Emit(OpCodes.Call, typeof(DeserializationDepth).GetMethod(nameof(DeserializationDepth.Enter))!);
+			// Dumont end
+
 			if (type.IsClass)
 			{
 				// instantiate empty class
@@ -198,6 +202,10 @@ namespace NetSerializer
 					il.Emit(OpCodes.Callvirt, miOnDeserialization);
 				}
 			}
+
+			// Dumont changes start
+			il.Emit(OpCodes.Call, typeof(DeserializationDepth).GetMethod(nameof(DeserializationDepth.Exit))!);
+			// Dumont end
 
 			il.Emit(OpCodes.Ret);
 		}

@@ -77,7 +77,11 @@ namespace NetSerializer
 			}
 
 			var del = serializer.GetDeserializeTrampolineFromId(id);
+			// Dumont changes start
+			DeserializationDepth.Enter();
 			del(serializer, stream, out ob);
+			DeserializationDepth.Exit();
+			// Dumont end
 		}
 
 		public static void DeserializeTyped<T>(Serializer serializer, Stream stream, out T value)

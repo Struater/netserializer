@@ -328,13 +328,33 @@ namespace NetSerializer
 		public object Deserialize(Stream stream)
 		{
 			object ob;
-			ObjectSerializer.Deserialize(this, stream, out ob);
+			// Dumont changes start
+			var depth = DeserializationDepth.Save();
+			try
+			{
+				ObjectSerializer.Deserialize(this, stream, out ob);
+			}
+			finally
+			{
+				DeserializationDepth.Restore(depth);
+			}
+			// Dumont end
 			return ob;
 		}
 
 		public void Deserialize(Stream stream, out object ob)
 		{
-			ObjectSerializer.Deserialize(this, stream, out ob);
+			// Dumont changes start
+			var depth = DeserializationDepth.Save();
+			try
+			{
+				ObjectSerializer.Deserialize(this, stream, out ob);
+			}
+			finally
+			{
+				DeserializationDepth.Restore(depth);
+			}
+			// Dumont end
 		}
 
 		/// <summary>
@@ -368,7 +388,17 @@ namespace NetSerializer
 					del = (DeserializeDelegate<T>)GenerateDirectReaderDelegate(typeof(T));
 			}
 
-			del(this, stream, out value);
+			// Dumont changes start
+			var depth = DeserializationDepth.Save();
+			try
+			{
+				del(this, stream, out value);
+			}
+			finally
+			{
+				DeserializationDepth.Restore(depth);
+			}
+			// Dumont end
 		}
 
 		public int RegisterContext(object context)
